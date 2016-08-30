@@ -2,16 +2,18 @@ var express = require('express');
 var app = express();
 var path = require('path');
 
+var routes = require('./routes');
+
 app.set('port', 5000);
+
+app.use(function(req, res, next){
+    console.log(req.method, req.url);
+    next();
+});
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/file', function(req, res){
-    console.log('getting file');
-    res
-        .status(200)
-        .sendFile(path.join(__dirname, 'app.js'));
-});
+app.use('/api', routes);
 
 server = app.listen(app.get('port'), function(){
     var port = server.address().port;
