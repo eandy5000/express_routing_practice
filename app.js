@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 var path = require('path');
 
-var routes = require('./routes');
+var router = require('./api/routes');
 
 app.set('port', 5000);
 
@@ -12,8 +12,9 @@ app.use(function(req, res, next){
 });
 
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/api', router);
 
-app.use('/api', routes);
+
 
 server = app.listen(app.get('port'), function(){
     var port = server.address().port;
