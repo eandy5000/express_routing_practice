@@ -7,13 +7,8 @@ router
     .route('/hotels')
     .get(ctrlHotels.getAllHotels);
 router
-    .route('/test')
-    .get(function(req, res){
-        console.log('test route working');
-        res
-            .status(200)
-            .sendFile(path.join(__dirname, '../../', 'app.js'));
-    });    
+    .route('/hotels/:hotelId')
+    .get(ctrlHotels.getOneHotel);
 
 
 module.exports = router;
