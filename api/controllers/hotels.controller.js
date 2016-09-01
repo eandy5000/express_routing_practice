@@ -31,3 +31,11 @@ module.exports.getOneHotel = function(req, res) {
         .status(200)
         .json(thisHotel);
 }
+
+module.exports.addOneHotel = function(req, res){
+    console.log("Adding Hotel to database");
+    console.log(req.body);
+    res
+        .status(200)
+        .json(req.body);
+};
