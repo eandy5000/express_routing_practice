@@ -1,5 +1,6 @@
 var hotelData = require('../data/data.json');
 var dbcon = require('../data/dbConnection.js');
+var ObjectId = require('mongodb').ObjectId;
 
 
 module.exports.getAllHotels = function(req, res){
@@ -41,13 +42,20 @@ module.exports.getAllHotels = function(req, res){
 };
 
 module.exports.getOneHotel = function(req, res) {
+    var db = dbcon.get();
+    var collection = db.collection('hotels');
     var hotelId = req.params.hotelId;
-    var thisHotel = hotelData[hotelId];
 
-    console.log("get one hotel with id ", hotelId);
-    res
-        .status(200)
-        .json(thisHotel);
+    collection
+        .findOne({
+            _id : ObjectId(hotelId)
+        }, function(err, doc){
+            console.log("get one hotel with id ", hotelId);
+            res
+                .status(200)
+                .json(doc);
+
+        });
 }
 
 module.exports.addOneHotel = function(req, res){
