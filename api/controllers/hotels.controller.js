@@ -61,7 +61,31 @@ module.exports.getOneHotel = function(req, res) {
 module.exports.addOneHotel = function(req, res){
     console.log("Adding Hotel to database");
     console.log(req.body);
-    res
-        .status(200)
-        .json(req.body);
+    var db = dbcon.get();
+    var collection = db.collection('hotels');
+    var newHotel;
+
+    if(req.body && req.body.name && req.body.stars){
+        console.log("Hotel created");
+        newHotel = req.body;
+        newHotel.stars = parseInt(req.body.stars, 10);
+
+        collection
+            .insertOne(newHotel, function(err, response){
+                console.log(response);
+                console.log(response.ops);
+                
+                res
+                .status(201)
+                .json(newHotel);
+            })
+
+
+    } else {
+        console.log("Data missing from body");
+        res
+            .status(400)
+            .json({message : "data missing from body"});
+    }
+
 };
